@@ -9,11 +9,11 @@ pip install -r requirements_MarkdownMaker.txt
 pick a folder with files and even subfolders with a variety of different filetypes. 
 
 options:
--h, --help            show this help message and exit
--I INPUT folder path (default = current working directory)
--O OUTPUT folder path (default = ObsidianNotebook)
--c, --convert         Convert files to markdown
--b, --blank           create a blank obsidian folder
+h, --help            show this help message and exit
+I INPUT folder path (default = current working directory)
+O OUTPUT folder path (default = ObsidianNotebook)
+c, --convert         Convert files to markdown
+b, --blank           create a blank obsidian folder
 
   
 Usage:
