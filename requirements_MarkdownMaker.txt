@@ -1,11 +1,10 @@
-
 docx
-email
-shutil
-hashlib
 PyMuPDF
-exifread
+ExifRead
 striprtf
 msg_parser
 extract-msg
 markdownify
+email
+shutil
+hashlib

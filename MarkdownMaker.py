@@ -13,7 +13,7 @@ import email
 import time
 import shutil
 import hashlib
-import exifread
+import exifread # pip install ExifRead
 from email.policy import default
 from striprtf.striprtf import rtf_to_text   # pip install striprtf
 
@@ -120,7 +120,7 @@ def main():
     input_folder = os.getcwd()  # Default to current working directory
     # output_folder = r'C:\Forensics\scripts\python\ObsidianNotebook'  # Default output path
     output_folder = r'ObsidianNotebook'  # Default output path
-
+    file = sys.argv[0].split('\\')[-1]
 
     # Set input and output folders based on arguments, if provided
     if args.input:
@@ -130,19 +130,32 @@ def main():
 
     # Ensure the input folder exists
     if not os.path.exists(input_folder):
-        print(f"Input folder {input_folder} doesn't exist.")        
+
+        msg_blurb = (f"Input folder {input_folder} doesn't exist.")
+        msg_blurb_square(msg_blurb, color_red) 
+    
         # logging.error(f"Input folder '{input_folder}' doesn't exist.")
         return 1
 
     # Ensure the output folder exists, or create it if it doesn’t
     if not os.path.exists(output_folder):
-        print(f"output_folder doesn't exist: {output_folder}")
+
+        msg_blurb = (f"{output_folder} folder doesn't exist")
+        msg_blurb_square(msg_blurb, color_red)  
+        print(f"Try {file} -h for help.")
+
         # os.makedirs(output_folder, exist_ok=True)
         # logging.info(f"Created output folder '{output_folder}'.")
         sys.exit(1)  # Exit the script if output folder cannot be created
         
     if args.convert:
         # logging.info(f'Starting conversion of files in {input_folder} to markdown format in {output_folder}.')
+        
+        
+        msg_blurb = (f"reading input folder {input_folder}")
+        msg_blurb_square(msg_blurb, color_green)         
+        
+        
         process_files(input_folder, output_folder)
     elif args.blank:
         setup_obsidian(output_folder)
