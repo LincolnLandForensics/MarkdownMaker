@@ -33,6 +33,6 @@ python MarkdownMaker.py -H
 ```
 
 
-
-![sample output](Images/obsidian_sample.png)
+Supported graphics with exif data will get that displayed under the image
+![sample output](Images/Sample1_exifdata.jpg)
 
