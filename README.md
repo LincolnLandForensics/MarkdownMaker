@@ -18,7 +18,7 @@ options:
   
 Usage:
 
-default behavior, if you enter no options it just runs with -E -i -p -U -W selected
+
 ```
 
 python MarkdownMaker.py -c (from command prompt) 
