@@ -23,19 +23,14 @@ import msg_parser   # pip install msg_parser, extract-msg
 from pptx import Presentation   # pip install python-pptx
 # from pptx.oxml import nsmap # pip install nsmap
 
-
 from datetime import datetime
-# try:
-    # import textract # pip install textract
-# except Exception as e:
-    # print(f"extract module is not installed': {e}")
 from markdownify import markdownify as md   # pip install markdownify
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<      Pre-Sets       >>>>>>>>>>>>>>>>>>>>>>>>>>
 
 author = 'LincolnLandForensics'
 description = "Convert the content of various file types to Markdown, for use in Obsidian"
-version = '0.2.0'
+version = '0.2.2'
 
 
 global file_types
@@ -310,31 +305,28 @@ def convert_rtf_to_md2(plain_text):
 
     return markdown_content
 
-    
-def extract_text_from_docx_with_formatting(file_path):
-    '''
-    Function to extract formatted text from DOCX file and return in Markdown format with metadata.
-    '''
+def extract_text_from_docx_with_formatting(file_path, docs_folder='assets/documents/'):
+    """
+    Function to extract formatted text from a DOCX file, return it in Markdown format, 
+    and include metadata at the end of the extracted text.
+    """
     # Get file timestamps (creation, access, modified)
     creation_time, access_time, modified_time = get_file_timestamps(file_path)
 
+    # Generate MD5 hash for the file
     try:
         hash_md5 = hashfile(file_path)
     except:
-        hash_md5 = ""    
+        hash_md5 = ""  
 
+    # Initialize the text variable
     text = ""
 
     try:
-        # Copy the doc to the assets folder
-
+        # Copy the DOCX file to the assets folder
         file_name = os.path.basename(file_path)
-        new_file_path_link = os.path.join('assets/documents/', file_name)
-        # new_file_path_link = os.path.join(docs_folder, file_name)         
-        
-        new_file_path_link = new_file_path_link.replace("\\", "/")
-        # new_file_path = os.path.join(assets_folder, file_name)
-        new_file_path = os.path.join(docs_folder, file_name) # fixme
+        new_file_path_link = os.path.join(docs_folder, file_name).replace("\\", "/")
+        new_file_path = os.path.join(docs_folder, file_name)
 
         # Copy the file to the new path
         shutil.copy(file_path, new_file_path)
@@ -343,29 +335,48 @@ def extract_text_from_docx_with_formatting(file_path):
         text = (f"\n## [File]({new_file_path_link}): {file_path}\n"
                 f"## Creation: {creation_time}\n"
                 f"## Modified: {modified_time}\n"
-                f"## MD5: {hash_md5}\n\n"                
-                )
+                f"## MD5: {hash_md5}\n\n")
 
     except Exception as e:
-        print(f"{color_red}Error copying document {color_reset}'{file_path}': {e}")
+        print(f"Error copying document '{file_path}': {e}")
 
     try:
         # Load DOCX file
         doc = docx.Document(file_path)
-        
-        # Add metadata to the extracted text
-        # text += f"\n## File: {file_path}\n## Creation: {creation_time}\n## Modified: {modified_time}\n\n"
-        
+
         # Extract formatted text from paragraphs
         for para in doc.paragraphs:
             para_text = handle_paragraph_formatting(para)
             text += para_text + "\n"
-    
+
+        # Extract metadata
+        core_properties = doc.core_properties
+        metadata = {
+            "title": core_properties.title,
+            "subject": core_properties.subject,
+            "author": core_properties.author,
+            "keywords": core_properties.keywords,
+            "comments": core_properties.comments,
+            "created": core_properties.created,
+            "last_modified_by": core_properties.last_modified_by,
+            "modified": core_properties.modified,
+            "revision": core_properties.revision,
+        }
+
+        # Append metadata to the text
+        text += "\n\n## Metadata\n"
+        for key, value in metadata.items():
+            if value:
+                text += f"{key}: {value}\n"
+            # else:
+                # text += f"{key}: Not available\n"
+
     except Exception as e:
-        print(f"{color_red}Error reading docx file {color_reset}'{file_path}': {e}")
-    
+        print(f"Error reading DOCX file '{file_path}': {e}")
+
     # Return the extracted text with metadata and Markdown formatting
     return text
+    
 
 
 def extract_text_from_eml(file_path):
@@ -1171,11 +1182,7 @@ if __name__ == '__main__':
 
 """
 
-
-
-extract_html
-
-0.2.0 - pptx conversions with metadata
+0.2.1 - .DOCX and .PPTX conversions with metadata
 0.1.5 - add exifdata to the bottom of the .md file
 0.1.4 - (creation_time, access_time, modified_time) = get_file_timestamps(file_path)
 0.1.3 - -t option to create a default obsidian folder/files
@@ -1196,12 +1203,10 @@ pdf convert data and tables.
 undo the try except in .eml multi threaded
 
 fix rtf converter - doesn't do all formatting like bold
-create seperate module to parse text based files such as .txt, .py, .md, and .cmd
 
 The script’s Windows-specific checks (e.g., file creation time) could potentially be improved for cross-platform compatibility. You might use pathlib for better handling of file paths across platforms.
 
 this will overwrite files with the same name, create a way of if file exists, save it with a unique name
-
 
 """
 
