@@ -18,7 +18,7 @@ pick a folder with files and even subfolders with a variety of different filetyp
 
 -c, --convert         Convert files to markdown
 
--b, --blank           create a blank obsidian folder
+-b, --blank           create a blank obsidian folder, with some Obsidian config files
 
   
 ## Usage:
@@ -50,6 +50,7 @@ Supported images with exif data will have that displayed under the image
 
 
 ![sample output](images/ScreenshotExifData1.jpg)
+![[images/ScreenshotExifData1.jpg|600]]
 
 
 Scripts will be added to the scripts folder and get added markup language for scripts like python
