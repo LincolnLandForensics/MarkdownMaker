@@ -16,14 +16,14 @@ c, --convert         Convert files to markdown
 b, --blank           create a blank obsidian folder
 
   
-Usage:
+## Usage:
 
 
 ```
 python MarkdownMaker.py -c (from command prompt) 
 ```
 
-Example
+## Example
 ```
 python MarkdownMaker.py -c -I c:\scripts\python\test_files -O c:\scripts\python\ObsidianNotebook
 ```
@@ -33,7 +33,8 @@ create a blank obsidian folder with default folders and settings
 ```
 python MarkdownMaker.py -b 
 ```
-help
+## help
+
 ```
 
 python MarkdownMaker.py -H
@@ -56,10 +57,12 @@ Documents will be added to the documents folder and get added markup language fo
 There is often a link to the orginal file.
 
 html sample
+
 ![sample output](images/html_sample1.png)
 
 
 eml sample
+
 ![sample output](images/eml_sample1.png)
 
 
