@@ -10,15 +10,15 @@ pick a folder with files and even subfolders with a variety of different filetyp
 
 ## options:
 
-h, --help            show this help message and exit
+-h, --help            show this help message and exit
 
-I INPUT folder path (default = current working directory)
+-I, INPUT folder path (default = current working directory)
 
-O OUTPUT folder path (default = ObsidianNotebook)
+-O, OUTPUT folder path (default = ObsidianNotebook)
 
-c, --convert         Convert files to markdown
+-c, --convert         Convert files to markdown
 
-b, --blank           create a blank obsidian folder
+-b, --blank           create a blank obsidian folder
 
   
 ## Usage:
