@@ -8,3 +8,5 @@ markdownify
 email
 shutil
 hashlib
+python-pptx
+nsmap

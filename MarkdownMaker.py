@@ -481,8 +481,68 @@ def extract_text_from_msg(file_path):
     
     return text
 
-    
+
 def extract_text_from_pdf(file_path):
+    """
+    Function to extract text from a PDF file, copy it to a new location in the assets folder,
+    and generate a link to the original file. Appends metadata at the end under a "Metadata" heading.
+    """
+    print(f'hello world')   # temp
+    try:
+        # Open the PDF file
+        doc = fitz.open(file_path)
+
+        # Get file timestamps
+        creation_time, access_time, modified_time = get_file_timestamps(file_path)
+
+        # If timestamps are not found, return empty text
+        if creation_time is None or access_time is None or modified_time is None:
+            return ""
+
+        # Copy the PDF to the assets folder
+        if not os.path.exists(assets_folder):
+            os.makedirs(assets_folder)  # Create the assets folder if it doesn't exist
+
+        file_name = os.path.basename(file_path)
+
+        new_file_path_link = os.path.join('assets/documents', file_name) 
+        new_file_path_link = new_file_path_link.replace("\\", "/")
+        new_file_path = os.path.join(docs_folder, file_name)
+
+        # Copy the file to the new path
+        shutil.copy(file_path, new_file_path)
+
+        # Initialize the text output with metadata and the file link
+        text = (f"\n## [File]({new_file_path_link}): {file_path}\n"
+                f"## Creation: {creation_time}\n"
+                f"## Modified: {modified_time}\n\n")
+
+        # Extract text from each page
+        for page_num in range(doc.page_count):
+            page = doc.load_page(page_num)
+            page_text = page.get_text("text")  # Extract plain text
+            text += page_text
+
+        # Extract metadata
+        metadata = doc.metadata
+        if metadata:
+            text += "\n\n## Metadata\n"
+            for key, value in metadata.items():
+                text += f"{key}: {value}\n"
+        else:
+            text += "\n\n## Metadata\nNo metadata found.\n"
+
+        return text
+
+    except fitz.EmptyFileError:
+        print(f"Cannot open empty or corrupted PDF file: {file_path}")
+        return ""
+    except Exception as e:
+        print(f"Error reading PDF file '{file_path}': {e}")
+        return ""
+
+    
+def extract_text_from_pdf_old(file_path):
     """
     Function to extract text from a PDF file, copy it to a new location in the assets folder,
     and generate a link to the original file.
