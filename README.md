@@ -52,3 +52,16 @@ Scripts will be added to the scripts folder and get added markup language for sc
 ![sample output](images/python_sample1.jpg)
 
  
+Documents will be added to the documents folder and get added markup language for files like .pdf, .html, .docx, .rtf and more.
+There is often a link to the orginal file.
+
+html sample
+![sample output](images/html_sample1.png)
+
+
+eml sample
+![sample output](images/eml_sample1.png)
+
+
+
+
