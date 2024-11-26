@@ -33,8 +33,15 @@ python MarkdownMaker.py -H
 ```
 
 
-Supported graphics with exif data will get that displayed under the image
+Supported images with exif data will have that displayed under the image
 
 
 ![sample output](images/ScreenshotExifData1.jpg)
 
+
+Scripts will be added to the scripts folder and get added markup language for scripts like python
+
+
+![sample output](images/python_sample1.jpg)
+
+ 
