@@ -22,9 +22,16 @@ Usage:
 ```
 python MarkdownMaker.py -c (from command prompt) 
 ```
-blank obsidian folder with default folders and settings
+
+Example
 ```
-python MarkdownMaker.py -b
+python MarkdownMaker.py -c -I c:\scripts\python\test_files -O c:\scripts\python\ObsidianNotebook
+```
+
+
+create a blank obsidian folder with default folders and settings
+```
+python MarkdownMaker.py -b 
 ```
 help
 ```
