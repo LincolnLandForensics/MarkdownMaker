@@ -33,6 +33,8 @@ python MarkdownMaker.py -H
 ```
 
 
-Supported graphics with exif data will get that displayed under the image\n
-![sample output](images/Sample1_exifdata.jpg)
+Supported graphics with exif data will get that displayed under the image
+
+
+![sample output](images/ScreenshotExifData1.jpg)
 
