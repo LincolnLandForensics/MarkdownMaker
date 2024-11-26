@@ -20,6 +20,10 @@ from striprtf.striprtf import rtf_to_text   # pip install striprtf
 import argparse # for menu system
 import msg_parser   # pip install msg_parser, extract-msg
 
+from pptx import Presentation   # pip install python-pptx
+# from pptx.oxml import nsmap # pip install nsmap
+
+
 from datetime import datetime
 # try:
     # import textract # pip install textract
@@ -202,6 +206,8 @@ def convert_to_markdown(file_path, output_folder):
 
     if file_path.lower().endswith(".pdf"):    
         content = extract_text_from_pdf(file_path) 
+    elif file_path.lower().endswith(".pptx"):    
+        content = extract_text_from_pptx(file_path) 
     elif extension.lower() in (files_media):
         content = md_for_media(file_path)
 
@@ -487,8 +493,9 @@ def extract_text_from_pdf(file_path):
     Function to extract text from a PDF file, copy it to a new location in the assets folder,
     and generate a link to the original file. Appends metadata at the end under a "Metadata" heading.
     """
-    print(f'hello world')   # temp
-    try:
+
+    if 1==1:
+    # try:
         # Open the PDF file
         doc = fitz.open(file_path)
 
@@ -525,73 +532,99 @@ def extract_text_from_pdf(file_path):
 
         # Extract metadata
         metadata = doc.metadata
+
         if metadata:
             text += "\n\n## Metadata\n"
             for key, value in metadata.items():
                 text += f"{key}: {value}\n"
-        else:
-            text += "\n\n## Metadata\nNo metadata found.\n"
+        # else:
+            # text += "\n\n## Metadata\nNo metadata found.\n"
 
         return text
 
-    except fitz.EmptyFileError:
-        print(f"Cannot open empty or corrupted PDF file: {file_path}")
-        return ""
-    except Exception as e:
-        print(f"Error reading PDF file '{file_path}': {e}")
-        return ""
+    # except fitz.EmptyFileError:
+        # print(f"Cannot open empty or corrupted PDF file: {file_path}")
+        # return ""
+    # except Exception as e:
+        # print(f"Error reading PDF file '{file_path}': {e}")
+        # return ""
 
-    
-def extract_text_from_pdf_old(file_path):
+def extract_text_from_pptx(file_path):
     """
-    Function to extract text from a PDF file, copy it to a new location in the assets folder,
-    and generate a link to the original file.
+    Extract text from a PowerPoint (.pptx) file, including metadata.
+    Text is followed by a "Metadata" section with the file's properties.
     """
+    text = ''
     try:
-        # Open the PDF file
-        doc = fitz.open(file_path)
+        hash_md5 = hashfile(file_path)
+    except:
+        hash_md5 = ""
 
+    try:
         # Get file timestamps
         creation_time, access_time, modified_time = get_file_timestamps(file_path)
 
-        # If timestamps are not found, return empty text
-        if creation_time is None or access_time is None or modified_time is None:
-            return ""
 
-        # Copy the PDF to the assets folder
-        if not os.path.exists(assets_folder):
-            os.makedirs(assets_folder)  # Create the assets folder if it doesn't exist
+        
+        # Load the PowerPoint presentation
+        presentation = Presentation(file_path)
 
-        file_name = os.path.basename(file_path)
+        # Extract text from slides
+        text = ""
+        for slide_num, slide in enumerate(presentation.slides, start=1):
+            text += f"\n## Slide {slide_num}:\n"
+            for shape in slide.shapes:
+                if shape.has_text_frame:
+                    for paragraph in shape.text_frame.paragraphs:
+                        text += paragraph.text + "\n"
 
-        new_file_path_link = os.path.join('assets/documents', file_name) 
-        new_file_path_link = new_file_path_link.replace("\\", "/")
-        new_file_path = os.path.join(docs_folder, file_name)
+        # Extract metadata using core_properties
+        core_properties = presentation.core_properties
+        metadata = {
+            "title": core_properties.title,
+            "subject": core_properties.subject,
+            "author": core_properties.author,
+            "keywords": core_properties.keywords,
+            "comments": core_properties.comments,
+            "created": core_properties.created,
+            "last_modified_by": core_properties.last_modified_by,
+            "modified": core_properties.modified,
+            "revision": core_properties.revision,
+        }
 
-        # Copy the file to the new path
-        shutil.copy(file_path, new_file_path)
+        # Append metadata to the text
+        text += "\n\n## Metadata\n"
+        for key, value in metadata.items():
+            if value:
+                text += f"{key}: {value}\n"
 
-        # Initialize the text output with metadata and the file link
-        text = (f"\n## [File]({new_file_path_link}): {file_path}\n"
-                f"## Creation: {creation_time}\n"
-                f"## Modified: {modified_time}\n\n")
+        # return text
 
-        # Extract text from each page
-        for page_num in range(doc.page_count):
-            page = doc.load_page(page_num)
-            page_text = page.get_text("text")  # Extract plain text
-            text += page_text
-
-        return text
-
-    except fitz.EmptyFileError:
-        print(f"Cannot open empty or corrupted PDF file: {file_path}")
-        # logging.error(f"Cannot open empty or corrupted PDF file: {file_path}")
-        return ""
     except Exception as e:
-        print(f"Error reading PDF file '{file_path}': {e}")
-        # logging.error(f"Error reading PDF file '{file_path}': {e}")
+        print(f"An error occurred while processing the PPTX file: {e}")
         return ""
+
+    file_name = os.path.basename(file_path)
+    
+    new_file_path = os.path.join(docs_folder, file_name)
+    # Copy the file to the new path
+    shutil.copy(file_path, new_file_path)
+    
+    new_file_path_link = os.path.join('assets/documents/', file_name) 
+    new_file_path_link = new_file_path_link.replace("\\", "/")    
+    
+    
+    # text = (f"\n## File: {file_path}\n## Creation: {creation_time}\n## Modified: {modified_time}\n\n{text}")                    
+    text = (f"\n## [File]({new_file_path_link}): {file_path}\n"
+                f"## Creation: {creation_time}\n"
+                f"## Modified: {modified_time}\n"
+                f"## MD5: {hash_md5}\n\n"                
+                f"{text}\n\n"
+                )    
+
+
+    return text
+
 
 def get_file_timestamps(file_path):
     """
@@ -1142,6 +1175,7 @@ if __name__ == '__main__':
 
 extract_html
 
+0.2.0 - pptx conversions with metadata
 0.1.5 - add exifdata to the bottom of the .md file
 0.1.4 - (creation_time, access_time, modified_time) = get_file_timestamps(file_path)
 0.1.3 - -t option to create a default obsidian folder/files
@@ -1157,7 +1191,7 @@ extract_html
 """
 
 export to html -w
-convert_pptx(file_path)
+
 pdf convert data and tables.
 undo the try except in .eml multi threaded
 
