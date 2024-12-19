@@ -13,14 +13,17 @@ pick a folder with files and even subfolders with a variety of different filetyp
 ## options:
 
 -h, --help            show this help message and exit
--I INPUT, --input INPUT
-                        Input folder path
--O OUTPUT, --output OUTPUT
-                        Output folder path
--T TEMPLATE, --Template TEMPLATE
-                        template path
+
+-I INPUT, --input 	Input folder path
+
+-O OUTPUT, --output 	Output folder path
+
+-T TEMPLATE, --Template template path
+
 -c, --convert         Convert files to markdown
+
 -b, --blank           create a blank obsidian folder
+
 -t, --template        copy templated obsidian files/folders
 
   
