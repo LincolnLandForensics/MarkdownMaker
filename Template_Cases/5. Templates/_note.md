@@ -5,7 +5,7 @@ Templates for frequently used notes.
 
 ## Example:
 
-5. Templates/
+Templates/
 
 
   0. Tasks_Pre-Warrant.md = checklist for things to consider before you hit the field
