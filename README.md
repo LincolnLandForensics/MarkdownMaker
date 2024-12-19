@@ -47,7 +47,12 @@ python MarkdownMaker.py -b
 
 or
 
-create a blank obsidian case from a template folder (2 folders have been included : Template_2ndBrain & Template_Cases
+create a blank obsidian case from a template folder (2 folders have been included
+
+Template_2ndBrain - for a standard 2nd brain setup
+
+Template_Cases - for a new case notes file
+
 ```
 python MarkdownMaker.py -b -t -T Template_Cases
 ```
