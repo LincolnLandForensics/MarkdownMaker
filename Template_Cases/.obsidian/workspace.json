@@ -1,0 +1,278 @@
+{
+  "main": {
+    "id": "37ef5b99c51c6bc8",
+    "type": "split",
+    "children": [
+      {
+        "id": "ba826a3425ca3d96",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3fa9c28ead42b9b8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "5. Templates/CaseNotes_template.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "CaseNotes_template"
+            }
+          },
+          {
+            "id": "d5111edc9583343c",
+            "type": "leaf",
+            "state": {
+              "type": "kanban",
+              "state": {
+                "file": "8. Tasks/0. Todo.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": [
+                    false,
+                    false,
+                    false
+                  ]
+                }
+              },
+              "icon": "lucide-trello",
+              "title": "0. Todo"
+            }
+          },
+          {
+            "id": "42d5d2f60cf16b95",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "5. Templates/Ex.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Ex"
+            }
+          },
+          {
+            "id": "432e270bae959605",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "5. Templates/0. Tasks_Pre-Warrant.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "0. Tasks_Pre-Warrant"
+            }
+          },
+          {
+            "id": "56d275c55d8e6324",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "5. Templates/1. Tasks_Onsite.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "1. Tasks_Onsite"
+            }
+          },
+          {
+            "id": "e445eb7d021e9a74",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "5. Templates/Ex.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Ex"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "64446e908eef9d20",
+    "type": "split",
+    "children": [
+      {
+        "id": "10784296262593f3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "29236396bd57b7d5",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "7d2bc4b03b3e8624",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "_note",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "544b7de8d32a5667",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 335.5
+  },
+  "right": {
+    "id": "a76413a852e6123f",
+    "type": "split",
+    "children": [
+      {
+        "id": "d06c1315713a0945",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0be1ca5f319c5e27",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "2. Projects/_note.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for _note"
+            }
+          },
+          {
+            "id": "a61a76d93b0c3e14",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "2. Projects/_note.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from _note"
+            }
+          },
+          {
+            "id": "d5dbe28d928ffcfb",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "5ea1f0716042c6d8",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "2. Projects/_note.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of _note"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-kanban:Create new board": false
+    }
+  },
+  "active": "d5111edc9583343c",
+  "lastOpenFiles": [
+    "8. Tasks/1. Shopping.md",
+    "8. Tasks/0. Todo.md",
+    "8. Tasks/Tasks.md",
+    "5. Templates/_note.md",
+    "0. Case/Ex.md",
+    "0. Case/Activity Report.md",
+    "0. Case",
+    "Activity Report. Case/Ex.md",
+    "Activity Report. Case/Activity Report.md",
+    "Activity Report. Case",
+    "New folder",
+    "5. Templates/Ex.md",
+    "5. Templates/CaseNotes_template.md",
+    "5. Templates/2. Tasks_Lab.md",
+    "5. Templates/Daily_ Notes.md",
+    "5. Templates/1. Tasks_Onsite.md",
+    "5. Templates/0. Tasks_Pre-Warrant.md",
+    "3. Daily Notes/2024_12/2024-12-19.md",
+    "2. Projects/_note.md",
+    "1. Inbox/_note.md",
+    "4. Documents/_note.md",
+    "7. Archives/_note.md",
+    "9. Assets/Excalidraw",
+    "6. Logs/_note.md",
+    "8. Tasks/_note.md",
+    "3. Daily Notes/_note.md",
+    "3. Daily Notes/2024_12",
+    "9. Assets/scripts/python",
+    "9. Assets/media/videos",
+    "5. Templates/test.md",
+    "6. Logs/Study/PoliceAlphabet.md",
+    "6. Logs/Study/PoliceCodes.md"
+  ]
+}

@@ -30,7 +30,7 @@ from markdownify import markdownify as md   # pip install markdownify
 
 author = 'LincolnLandForensics'
 description = "Convert the content of various file types to Markdown, for use in Obsidian"
-version = '0.2.2'
+version = '0.2.4'
 
 
 global file_types
@@ -109,16 +109,21 @@ def main():
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('-I', '--input', help='Input folder path', required=False)
     parser.add_argument('-O', '--output', help='Output folder path', required=False)
+    parser.add_argument('-T', '--Template', help='template path', required=False)
     parser.add_argument('-c', '--convert', help='Convert files to markdown', required=False, action='store_true')
     parser.add_argument('-b', '--blank', help='create a blank obsidian folder', required=False, action='store_true')
+    parser.add_argument('-t', '--template', help='copy templated obsidian files/folders', required=False, action='store_true')
 
     args = parser.parse_args()
 
     global input_folder
     global output_folder
+    global template1_input
     input_folder = os.getcwd()  # Default to current working directory
     # output_folder = r'C:\Forensics\scripts\python\ObsidianNotebook'  # Default output path
     output_folder = r'ObsidianNotebook'  # Default output path
+    template1_input = r'Template_2ndBrain'
+    
     file = sys.argv[0].split('\\')[-1]
 
     # Set input and output folders based on arguments, if provided
@@ -126,38 +131,27 @@ def main():
         input_folder = args.input
     if args.output:
         output_folder = args.output
+    if args.Template:
+        template1_input = args.Template
 
     # Ensure the input folder exists
     if not os.path.exists(input_folder):
 
         msg_blurb = (f"Input folder {input_folder} doesn't exist.")
         msg_blurb_square(msg_blurb, color_red) 
-    
-        # logging.error(f"Input folder '{input_folder}' doesn't exist.")
+
         return 1
-
-    # Ensure the output folder exists, or create it if it doesn’t
-    if not os.path.exists(output_folder):
-
-        msg_blurb = (f"{output_folder} folder doesn't exist")
-        msg_blurb_square(msg_blurb, color_red)  
-        print(f"Try {file} -h for help.")
-
-        # os.makedirs(output_folder, exist_ok=True)
-        # logging.info(f"Created output folder '{output_folder}'.")
-        sys.exit(1)  # Exit the script if output folder cannot be created
-        
+   
+    if args.template:
+        copy_template_folder(input_folder, output_folder, template1_input)
     if args.convert:
-        # logging.info(f'Starting conversion of files in {input_folder} to markdown format in {output_folder}.')
-        
-        
         msg_blurb = (f"reading input folder {input_folder}")
         msg_blurb_square(msg_blurb, color_green)         
-        
-        
+
         process_files(input_folder, output_folder)
     elif args.blank:
-        setup_obsidian(output_folder)
+        copy_template_folder(input_folder, output_folder, template1_input)
+        setup_obsidian(input_folder, output_folder)
     else:
         parser.print_help()
         Usage()
@@ -176,6 +170,32 @@ def cleanup_description(description):
     
     return formatted_description
 
+
+def copy_template_folder(input_folder, output_folder, template1_input):
+    template1_input = os.path.join(input_folder, template1_input)
+    # Check if the Templates folder exists in the input folder
+    if os.path.exists(template1_input):
+        # Copy contents from input Templates to output folder
+        for item in os.listdir(template1_input):
+            source_item = os.path.join(template1_input, item)
+            destination_item = os.path.join(output_folder, item)
+            
+            if os.path.isdir(source_item):
+                # If item is a directory and doesn't exist in destination, copy it recursively
+                if not os.path.exists(destination_item):
+                    shutil.copytree(source_item, destination_item, dirs_exist_ok=True)
+                # else:
+                    # print(f"Directory {destination_item} already exists.")
+            else:
+                # If item is a file and doesn't exist in destination, copy it
+                if not os.path.exists(destination_item):
+                    shutil.copy2(source_item, destination_item)
+                else:
+                    print(f"File {destination_item} already exists.")
+        
+        print(f"{template1_input} folder copied to {output_folder}")
+    else:
+        print("Templates folder does not exist in the input folder.")
 
 def convert_to_decimal(coord, ref):
     """Converts GPS coordinates to decimal format."""
@@ -887,8 +907,6 @@ def md_for_scripts(file_path):
             return header + content + "\n"
 
 
-        print(f'hello world')   # temp
-
         # Initialize the text output with metadata and the file link
         text = (f"\n## [File]({new_file_path_link}): {file_path}\n"
                 f"## Creation: {creation_time}\n"
@@ -921,7 +939,7 @@ def process_files(root_folder, output_folder):
     Function to walk through all files and convert
     ''' 
     
-    setup_obsidian(output_folder)   # create a default obsidian setup, if it doesn't exist
+    setup_obsidian(input_folder, output_folder)   # create a default obsidian setup, if it doesn't exist
 
     # Walk through all files and subdirectories in root_folder
     for subdir, _, files in os.walk(root_folder):
@@ -984,13 +1002,25 @@ def read_exif_data(file_path):
     return exif_data, Description
     
     
-def setup_obsidian(output_folder):
-    # output_folder = r'ObsidianNotebook'  # Default output path
+def setup_obsidian(input_folder, output_folder):
+    # Ensure the output folder exists, or create it if it doesn’t
+    if not os.path.exists(output_folder):
+        msg_blurb = f"The output folder '{output_folder}' doesn't exist. Would you like to create it? (y/n): "
+        user_response = input(msg_blurb).strip().lower()
 
-    
+        if user_response == 'y':
+            try:
+                os.makedirs(output_folder, exist_ok=True)
+                print(f"Output folder '{output_folder}' has been created.")
+            except Exception as e:
+                print(f"Error: Could not create the output folder. {e}")
+                sys.exit(1)  # Exit with error code 1
+        else:
+            print("Exiting as output folder creation was declined.")
+            sys.exit(1)  # Exit with error code 1
+
     msg_blurb = (f'See {output_folder}')
     msg_blurb_square(msg_blurb, color_green)
-
 
     app = {
       "alwaysUpdateLinks": True,
@@ -1075,23 +1105,26 @@ def setup_obsidian(output_folder):
     # Path to the .obsidian folder and the appearance.json file
     obsidian_folder = os.path.join(output_folder, '.obsidian')
     global assets_folder
-    assets_folder = os.path.join(output_folder, 'assets')
+    assets_folder = os.path.join(output_folder, '9. Assets')
     global assets_folder2
-    assets_folder2 = os.path.join('assets')
+    assets_folder2 = os.path.join('9. Assets')
     global docs_folder
-    docs_folder = os.path.join(output_folder, 'assets\documents')
+    docs_folder = os.path.join(output_folder, '9. Assets\documents')
     global media_folder
-    # media_folder = os.path.join(output_folder, 'assets\media')
+    # media_folder = os.path.join(output_folder, '9. Assets\media')
     media_folder = os.path.join(output_folder, (f'{assets_folder2}\media'))    
     global images_folder
 
     # images_folder = os.path.join(output_folder, (f'{assets_folder2}\media')) 
 
-    images_folder = os.path.join(output_folder, 'assets\\media\\images')
+    images_folder = os.path.join(output_folder, '9. Assets\\media\\images')
     global scripts_folder
-    scripts_folder = os.path.join(output_folder, 'assets\scripts')
+    scripts_folder = os.path.join(output_folder, '9. Assets\scripts')
     global templates_folder
-    templates_folder = os.path.join(output_folder, 'assets\\templates')
+    templates_folder = os.path.join(output_folder, '5. Templates')
+    # templates_folder = os.path.join(output_folder, 'Template_2ndBrain')
+
+
 
     app_file = os.path.join(obsidian_folder, 'app.json')
     appearance_file = os.path.join(obsidian_folder, 'appearance.json')
@@ -1102,63 +1135,60 @@ def setup_obsidian(output_folder):
     # Check if the .obsidian folder exists, if not, create it
     if not os.path.exists(obsidian_folder):
         os.makedirs(obsidian_folder)
-        print(f".obsidian folder created at {obsidian_folder}")
+        print(f"Created {obsidian_folder}")
 
     # Check if the assets folder exists, if not, create it
     if not os.path.exists(assets_folder):
         os.makedirs(assets_folder)
-        print(f"Assets folder created at {assets_folder}")
+        print(f"Created {assets_folder}")
 
     if not os.path.exists(media_folder):
         os.makedirs(media_folder)
-        print(f"media folder created at {media_folder}")
+        print(f"Created {media_folder}")
 
     # Check if the templates folder exists, if not, create it
     if not os.path.exists(templates_folder):
-        # os.makedirs(templates_folder)
-        print(f"templates folder created at {templates_folder}")
+        os.makedirs(templates_folder)
+        print(f"Created {templates_folder}")
 
     # Check if the Images folder exists, if not, create it
     if not os.path.exists(images_folder):
         os.makedirs(images_folder)
-        print(f"Images folder created at {images_folder}")
+        print(f"Created {images_folder}")
 
     # Check if the documents folder exists, if not, create it
     if not os.path.exists(docs_folder):
         os.makedirs(docs_folder)
-        print(f"Documents folder created at {docs_folder}")
+        print(f"Created {docs_folder}")
 
-    if not os.path.exists(templates_folder):
-        os.makedirs(templates_folder)
-        print(f"Documents folder created at {templates_folder}")
+    # if not os.path.exists(templates_folder):
+        # os.makedirs(templates_folder)
+        # print(f"Created {templates_folder}")
 
 
     # Check if the scripts folder exists, if not, create it
     if not os.path.exists(scripts_folder):
         os.makedirs(scripts_folder)
-        print(f"scripts folder created at {scripts_folder}")
+        print(f"Created {scripts_folder}")
+
 
     if not os.path.exists(app_file):
         with open(app_file, 'w') as f:
             json.dump(app, f, indent=4)
-        print(f"app.json created at {app_file}")
+        print(f"Created {app_file}")
     if not os.path.exists(appearance_file):
         with open(appearance_file, 'w') as f:
             json.dump(appearance, f, indent=4)
-        print(f"appearance.json created at {appearance_file}")
+        print(f"Created {appearance_file}")
     if not os.path.exists(community_plugins_file):
         with open(community_plugins_file, 'w') as f:
             json.dump(community_plugins, f, indent=4)
-        print(f"community_plugins.json created at {community_plugins_file}")
+        print(f"Created {community_plugins_file}")
+
     if not os.path.exists(core_plugins_file):
         with open(core_plugins_file, 'w') as f:
             json.dump(core_plugins, f, indent=4)
-        print(f"core_plugins.json created at {core_plugins_file}")
-
-    if not os.path.exists(template_file):
-        with open(template_file, 'w') as f:
-            json.dump(templates, f, indent=4)
-        print(f"templates.json created at {template_file}")
+        print(f"Created {core_plugins_file}")
 
 
 def Usage():
@@ -1171,6 +1201,7 @@ def Usage():
     print(f"    {file} -c -I C:\Forensics\scripts\python\Files -O ObsidianNotebook") 
     print(f"    {file} -c -O ObsidianNotebook") 
     print(f"    {file} -c -I test_files -O ObsidianNotebook") 
+    print(f"    {file} -b -t -T Template_Cases") 
 
 
 if __name__ == '__main__':
@@ -1196,7 +1227,7 @@ if __name__ == '__main__':
 # <<<<<<<<<<<<<<<<<<<<<<<<<< Future Wishlist  >>>>>>>>>>>>>>>>>>>>>>>>>>
 
 """
-
+if templates folder exists, copy those files into the templates folder
 export to html -w
 
 pdf convert data and tables.
