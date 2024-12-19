@@ -1,11 +1,17 @@
 
 ## Purpose: 
-Store templates for frequently used notes.
+
+Templates for frequently used notes.
 
 ## Example:
 
-Templates/
-  case_notes_template.md  
-  daily_notes.md
-  meeting_template.md
-  project_template.md
+5. Templates/
+
+
+  0. Tasks_Pre-Warrant.md = checklist for things to consider before you hit the field
+
+  1. Tasks_Onsite.md = don't forget these things onsite
+
+  2. Tasks_Lab.md = a rough draft of things to remember in the lab
+
+  Ex.md = case_notes_template
