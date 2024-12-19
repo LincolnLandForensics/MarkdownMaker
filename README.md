@@ -1,6 +1,7 @@
 # MarkdownMaker (MarkdownMaker.py)
-Convert documents and files into unified markdown files for use with Obsidian, Notion, Gitub Readme's and other Markdown notebooks.
-Can also be used to create a basic Obsidian notebook install, with some settings set. 
+Convert documents and files into unified markdown files for use with Obsidian, Notion, Gitub Readme's and other Markdown notebooks. (-c)
+
+Can also be used to create a basic Obsidian notebook install, with some settings set. (-b -t)
 
 
 ## installation:
