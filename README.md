@@ -11,14 +11,15 @@ pick a folder with files and even subfolders with a variety of different filetyp
 ## options:
 
 -h, --help            show this help message and exit
-
--I, INPUT folder path (default = current working directory)
-
--O, OUTPUT folder path (default = ObsidianNotebook)
-
+-I INPUT, --input INPUT
+                        Input folder path
+-O OUTPUT, --output OUTPUT
+                        Output folder path
+-T TEMPLATE, --Template TEMPLATE
+                        template path
 -c, --convert         Convert files to markdown
-
--b, --blank           create a blank obsidian folder, with some Obsidian config files
+-b, --blank           create a blank obsidian folder
+-t, --template        copy templated obsidian files/folders
 
   
 ## Usage:
@@ -38,6 +39,14 @@ create a blank obsidian folder with default folders and settings
 ```
 python MarkdownMaker.py -b 
 ```
+
+or
+
+create a blank obsidian case from a template folder
+```
+python MarkdownMaker.py -b -t -T template_cases
+```
+
 ## help
 
 ```
